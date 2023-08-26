@@ -17,6 +17,9 @@ class StoryController extends Controller
     {
         $story = Story::findOrFail($id);
 
-        return view('stories.show', ['story' => $story]);
+        $nextStory = Story::where('id', '>', $story->id)->first();
+        $prevStory = Story::where('id', '<', $story->id)->orderBy('id', 'DESC')->first();
+
+        return view('stories.show', ['story' => $story, 'nextStory' => $nextStory, 'prevStory' => $prevStory]);
     }
 }

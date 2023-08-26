@@ -9,13 +9,13 @@
 <body class="bg-gray-100 h-screen antialiased leading-none">
 <div class="flex flex-col">
     <header class="bg-blue-500 py-6">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="#" class="text-lg font-semibold text-white">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <a href="/stories" class="text-lg font-semibold text-white">
                 ParaStory
             </a>
         </div>
     </header>
-    <div class="flex-grow container mx-auto sm:px-4 mt-6 mb-8">
+    <div class="flex-grow container mx-auto sm:px-4 mt-6 mb-8 p-4">
         @yield('content')
     </div>
     <footer class="bg-gray-800 text-white py-6 text-sm">
