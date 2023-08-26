@@ -29,6 +29,9 @@ class StorySeeder extends Seeder
                 'title' => $storyData['title'],
                 'content' => $storyData['content'],
                 'author_id' => $author->id,
+                'source_url' => 'https://www.facebook.com/maxmixpinot/',
+                'subtitle' => null,
+                'images' => [],
             ]);
         }
     }
