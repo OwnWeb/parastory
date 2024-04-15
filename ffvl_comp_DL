@@ -1,0 +1,52 @@
+<?php
+
+// JS code :
+// let pilots = {};
+//
+//document.querySelectorAll('a[href^="/sites/parapente.ffvl.fr/files/igcfiles/"]').forEach(link =>
+//    {
+//     const track = link.getAttribute('href');
+//        const firstName = link.parentNode.parentNode.querySelector('td:nth-child(2)').innerHTML
+//        const lastName = link.parentNode.parentNode.querySelector('td:nth-child(3)').innerHTML
+//        pilots[`${firstName} ${lastName}`] = track;
+//    })
+//
+//    console.log(JSON.stringify(pilots))
+
+$json = '{"Name LASTNAME":"/sites/parapente.ffvl.fr/files/igcfiles/2024-04-13-igcfile-350261-280772.igc"}';
+
+$pilots = json_decode($json);
+
+foreach ($pilots as $name => $url) {
+    // Extract the filename from URL
+    $pathParts = pathinfo($url);
+    $originalFilename = $pathParts['basename'];
+
+    // Download the IGC file from the given URL
+    $fileContents = file_get_contents("https://parapente.ffvl.fr/$url");
+
+    if ($fileContents === false) {
+        echo "Failed to download file from $url\n";
+
+        continue;
+    }
+
+    // Use regular expression to replace both possible pilot name lines
+    // This pattern matches lines starting with HFPLTPILOTINCHARGE or HFPLTPILOT
+    $pattern = '/(HFPLTPILOTINCHARGE|HFPLTPILOT):[^\r\n]*/';
+    $replacement = "$1: $name";
+    $newFileContents = preg_replace($pattern, $replacement, $fileContents);
+
+    if ($newFileContents === null) {
+        echo "Failed to update pilot name in file from $url\n";
+
+        continue;
+    }
+
+    // Append pilot name to the original file name and save
+    $newFilename = str_replace('.igc', '', $originalFilename).'_'.str_replace(' ', '_', $name).'.igc';
+    // Save the modified file contents back to a file
+    file_put_contents("some_path/$newFilename", $newFileContents);
+
+    echo "File processed and saved as $newFilename for pilot $name.\n";
+}
