@@ -17,6 +17,7 @@ class Story extends Model
         'source_url',
         'author_id',
         'default_locale',
+        'created_at',
     ];
 
     protected $casts = [

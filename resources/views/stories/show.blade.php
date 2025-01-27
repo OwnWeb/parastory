@@ -3,11 +3,12 @@
 @section('content')
         @if (!empty($story->images))
         <div class="grid grid-cols-5">
-            <img src="{{ $story->images[0] }}" class="col-span-5">
+            <img src="{{ asset(str_replace('public', 'storage', $story->images[0])) }}" class="col-span-5">
             @foreach (array_slice($story->images, 1, 5) as $image)
-                <img src="{{ $image }}" class="w-full">
+                <img src="{{ asset(str_replace('public', 'storage', $image)) }}" class="w-full">
             @endforeach
         </div>
+
         @endif
         <h1 class="text-2xl font-bold mb-4">{{ $story->title }}</h1>
         <p><span class="font-medium"><span class="weight-bold">{{ $story->author->name }}</span> - {{ $story->date }}</span></p>
